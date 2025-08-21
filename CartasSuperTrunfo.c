@@ -2,7 +2,7 @@
 
 int main() {
     // Carta 1 - Ceará
-    char codigoCarta1[1] = "A01";
+    char codigoCarta1[4] = "A01";
     char estado1[20] = "Ceará";
     char cidade1[30] = "Fortaleza";
     float populacao1 = 12300000;
