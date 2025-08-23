@@ -17,7 +17,7 @@ int main() {
     scanf(" %c", &estado1);
     printf("Codigo da Carta (ex: A01): ");
     scanf(" %s", codigo1);
-    printf("Nome da Cidade (ex: Sao Paulo): ");
+    printf("Nome da Cidade (Distrito Federal): ");
     scanf(" %[^\n]", nomeCidade1);
     printf("Populacao (ex: 12325000): ");
     scanf(" %f", &populacao1);
@@ -33,12 +33,12 @@ int main() {
     pibPerCapita1 = (pib1 * 1000000000.0) / populacao1;
 
     // --- DADOS DA CARTA 2 ---
-    printf("\n--- Insira os dados para a Carta 2 ---\n");
+    printf("\n--- Carta 2 Paraná ---\n");
     printf("Estado (ex: B): ");
     scanf(" %c", &estado2);
     printf("Codigo da Carta (ex: B02): ");
     scanf(" %s", codigo2);
-    printf("Nome da Cidade (ex: Rio de Janeiro): ");
+    printf("Nome da Cidade (Curitiba): ");
     scanf(" %[^\n]", nomeCidade2);
     printf("Populacao (ex: 6748000): ");
     scanf(" %f", &populacao2);
