@@ -13,7 +13,7 @@ int main() {
 
     // --- DADOS DA CARTA 1 ---
     printf("--- Carta 1 ---\n");
-    printf("Insira o código da Carta: ");
+    printf("Dgite o código da Carta: ");
     scanf(" %3s", codigo1);
 
     printf("Digite a letra do Estado (A-H): ");
@@ -28,7 +28,7 @@ int main() {
     printf("Digite a área em km²: ");
     scanf(" %f", &area1);
 
-    printf("Digite o PIB da cidade (em bilhões de R$): ");
+    printf("Digite o PIB da cidade: ");
     scanf(" %f", &pib1);
 
     printf("Numero de Pontos Turisticos: ");
@@ -36,11 +36,11 @@ int main() {
 
     // --- CÁLCULO PARA A CARTA 1 ---
     densidade1 = populacao1 / area1;
-    pibPerCapita1 = (pib1 * 1000000000.0) / populacao1; // PIB convertido de bilhões para reais
+    pibPerCapita1 = (pib1 * 1000000000.0) / populacao1; // PIB convertido para reais
 
     // --- DADOS DA CARTA 2 ---
     printf("\n--- Carta 2 ---\n");
-    printf("Insira o código da Carta: ");
+    printf("Digite o código da Carta: ");
     scanf(" %3s", codigo2);
 
     printf("Digite a letra do Estado (A-H): ");
@@ -55,7 +55,7 @@ int main() {
     printf("Digite a área em km²: ");
     scanf(" %f", &area2);
 
-    printf("Digite o PIB da cidade (em bilhões de R$): ");
+    printf("Digite o PIB da cidade: ");
     scanf(" %f", &pib2);
 
     printf("Numero de Pontos Turisticos: ");
