@@ -1,67 +1,120 @@
-    #include <stdio.h>
+#include <stdio.h> 
+#include <string.h> 
 
-int main() {
-    //  Carta 1
-    char estado1_letra = 'A'; 
-    char codigo1[4] = "A01";
-    char nomeCidade1[50] = "São Paulo";
-    float populacao1 = 12396372; 
-    float area1 = 1521.11;     
-    float pib1 = 828.9;       
-    int pontosTuristicos1 = 50; 
 
-    // Carta 2 
-    char estado2_letra = 'B'; 
-    char codigo2[4] = "B02";
-    char nomeCidade2[50] = "Rio de Janeiro";
-    float populacao2 = 6775561; 
-    float area2 = 1200.27;     
-    float pib2 = 359.8;       
-    int pontosTuristicos2 = 45; 
+typedef struct {
+    char estado;                      
+    char codigo_carta[10];            
+    char nome_cidade[50];             
+    unsigned long int populacao;      
+    float area_km2;                   
+    float pib;                        
+    int pontos_turisticos;            
+    float densidade_populacional;     
+    float pib_per_capita;             
+    float super_poder;                
+} Carta;
 
-    // Variáveis para cálculos
-    float densidade1, pibPerCapita1;
-    float densidade2, pibPerCapita2;
 
-    // --- CÁLCULO PARA A CARTA 1 ---
-    densidade1 = populacao1 / area1;
-    // O PIB per capita calculado com o PIB 
-    pibPerCapita1 = (pib1 * 1000000000.0) / populacao1; 
-
-    // --- CÁLCULO PARA A CARTA 2 ---
-    densidade2 = populacao2 / area2;
-    // O PIB per capita calculado com o PIB 
-    pibPerCapita2 = (pib2 * 1000000000.0) / populacao2;
+void calcularAtributos(Carta *carta) {
+    
+    if (carta->area_km2 > 0) {
+        carta->densidade_populacional = (float)carta->populacao / carta->area_km2;
+    } else {
+        carta->densidade_populacional = 0.0f; 
+    }
 
     
+    if (carta->populacao > 0) {
+        
+        carta->pib_per_capita = (carta->pib * 1000000000.0f) / (float)carta->populacao;
+    } else {
+        carta->pib_per_capita = 0.0f; 
+    }
 
-    // Exibição da Carta 1
-    printf("\nCarta 1:\n");
-    printf("Estado: %c (São Paulo)\n", estado1_letra);
-    printf("Codigo: %s\n", codigo1);
-    printf("Cidade: %s\n", nomeCidade1);
-    printf("População: %.0f habitantes\n", populacao1);
-    printf("Área: %.2f km²\n", area1);
-    printf("PIB: %.2f bilhões de R$\n", pib1);
-    printf("Pontos Turisticos: %d\n", pontosTuristicos1);
-    printf("Densidade Populacional: %.2f hab/km²\n", densidade1);
-    printf("PIB per Capita: %.2f R$\n", pibPerCapita1);
+    // Cálculo do Super Poder
+    
+    carta->super_poder = (float)carta->populacao + carta->area_km2 + carta->pib +
+                         (float)carta->pontos_turisticos + carta->pib_per_capita;
 
-    // Exibição da Carta 2
-    printf("\nCarta 2:\n");
-    printf("Estado: %c (Rio de Janeiro)\n", estado2_letra);
-    printf("Codigo: %s\n", codigo2);
-    printf("Cidade: %s\n", nomeCidade2);
-    printf("População: %.0f habitantes\n", populacao2);
-    printf("Área: %.2f km²\n", area2);
-    printf("PIB: %.2f bilhões de R$\n", pib2);
-    printf("Pontos Turisticos: %d\n", pontosTuristicos2);
-    printf("Densidade Populacional: %.2f hab/km²\n", densidade2);
-    printf("PIB per Capita: %.2f R$\n", pibPerCapita2);
-
-    return 0;
+    // Adiciona o inverso da densidade populacional, se válido
+    if (carta->densidade_populacional > 0) {
+        carta->super_poder += (1.0f / carta->densidade_populacional);
+    }
 }
 
+// Função para exibir os dados de uma carta
+void exibirCarta(const Carta *carta, int numero_carta) {
+    printf("\n--- Dados da Carta %d ---\n", numero_carta);
+    printf("Estado: %c\n", carta->estado);
+    printf("Codigo: %s\n", carta->codigo_carta);
+    printf("Cidade: %s\n", carta->nome_cidade);
+    printf("Populacao: %lu habitantes\n", carta->populacao);
+    printf("Area (km2): %.2f km²\n", carta->area_km2);
+    printf("PIB: %.2f bilhoes de R$\n", carta->pib);
+    printf("Pontos Turisticos: %d\n", carta->pontos_turisticos);
+    printf("Densidade Populacional: %.2f hab/km²\n", carta->densidade_populacional);
+    printf("PIB per Capita: %.2f R$\n", carta->pib_per_capita);
+    printf("Super Poder: %.2f\n", carta->super_poder);
+}
 
-    
-    
+// Função para comparar as cartas e exibir os resultados
+void compararCartas(const Carta *carta1, const Carta *carta2) {
+    printf("\nComparacao de Cartas:\n");
+
+    // População (maior valor vence)
+    printf("Populacao: Carta %d venceu (%d)\n", (carta1->populacao > carta2->populacao ? 1 : 2), (carta1->populacao > carta2->populacao ? 1 : 0));
+
+    // Área (maior valor vence)
+    printf("Area: Carta %d venceu (%d)\n", (carta1->area_km2 > carta2->area_km2 ? 1 : 2), (carta1->area_km2 > carta2->area_km2 ? 1 : 0));
+
+    // PIB (maior valor vence)
+    printf("PIB: Carta %d venceu (%d)\n", (carta1->pib > carta2->pib ? 1 : 2), (carta1->pib > carta2->pib ? 1 : 0));
+
+    // Pontos Turisticos (maior valor vence)
+    printf("Pontos Turisticos: Carta %d venceu (%d)\n", (carta1->pontos_turisticos > carta2->pontos_turisticos ? 1 : 2), (carta1->pontos_turisticos > carta2->pontos_turisticos ? 1 : 0));
+
+    // Densidade Populacional (menor valor vence)
+    printf("Densidade Populacional: Carta %d venceu (%d)\n", (carta1->densidade_populacional < carta2->densidade_populacional ? 1 : 2), (carta1->densidade_populacional < carta2->densidade_populacional ? 1 : 0));
+
+    // PIB per Capita (maior valor vence)
+    printf("PIB per Capita: Carta %d venceu (%d)\n", (carta1->pib_per_capita > carta2->pib_per_capita ? 1 : 2), (carta1->pib_per_capita > carta2->pib_per_capita ? 1 : 0));
+
+    // Super Poder (maior valor vence)
+    printf("Super Poder: Carta %d venceu (%d)\n", (carta1->super_poder > carta2->super_poder ? 1 : 2), (carta1->super_poder > carta2->super_poder ? 1 : 0));
+}
+
+int main() {
+    Carta carta1, carta2; 
+
+    // --- CARTA 1 ---
+    carta1.estado = 'A';
+    strcpy(carta1.codigo_carta, "A01");
+    strcpy(carta1.nome_cidade, "Sao Paulo");
+    carta1.populacao = 12396372UL; 
+    carta1.area_km2 = 1521.11f;
+    carta1.pib = 828.9f;
+    carta1.pontos_turisticos = 50;
+
+    // --- CARTA 2 ---
+    carta2.estado = 'B';
+    strcpy(carta2.codigo_carta, "B02");
+    strcpy(carta2.nome_cidade, "Rio de Janeiro");
+    carta2.populacao = 6775561UL; 
+    carta2.area_km2 = 1200.27f;
+    carta2.pib = 359.8f;
+    carta2.pontos_turisticos = 45;
+
+    // Cálculo para ambas as cartas
+    calcularAtributos(&carta1);
+    calcularAtributos(&carta2);
+
+    // Exibição dos dados das cartas
+    exibirCarta(&carta1, 1);
+    exibirCarta(&carta2, 2);
+
+    // Comparação das cartas
+    compararCartas(&carta1, &carta2);
+
+    return 0; 
+}
